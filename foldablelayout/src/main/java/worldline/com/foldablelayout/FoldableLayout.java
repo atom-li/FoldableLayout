@@ -30,12 +30,15 @@ public class FoldableLayout extends RelativeLayout {
 
     private static final int ANIMATION_DURATION = 600;
 
-    protected RelativeLayout mContentLayout;
-    protected ImageView mImageViewBelow;
-    protected ImageView mImageViewAbove;
+    protected View mRootView;
     protected ViewGroup mViewGroupCover;
     protected ViewGroup mViewGroupDetail;
-    protected View mRootView;
+
+    protected RelativeLayout mContentLayout;
+
+    protected ImageView mImageViewBelow;
+    protected ImageView mImageViewAbove;
+
     protected Bitmap mDetailBitmap;
     protected Bitmap mDetailTopBitmap;
     protected Bitmap mDetailBottomBitmap;
@@ -158,6 +161,9 @@ public class FoldableLayout extends RelativeLayout {
         mContentLayout.addView(mViewGroupCover);
         mContentLayout.addView(mViewGroupDetail);
 
+        /**
+         * 隐藏
+         */
         mViewGroupDetail.setVisibility(GONE);
 
         mCoverHeight = context.getResources().getDimensionPixelSize(coverHeight);
