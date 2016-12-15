@@ -1,19 +1,3 @@
-/*
- * Copyright 2015 Worldline.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package worldline.com.foldablelayout;
 
 import android.animation.Animator;
@@ -59,6 +43,7 @@ public class FoldableLayout extends RelativeLayout {
     private boolean mIsFolded = true;
     private boolean mIsAnimating = false;
     private Matrix mMatrix;
+
     private FoldListener mFoldListener = new FoldListener() {
         @Override
         public void onUnFoldStart() {
@@ -132,11 +117,21 @@ public class FoldableLayout extends RelativeLayout {
     }
 
     private void setupView(Context context) {
+        /**
+         * 定义是否限制子视图在它的范围内进行绘制。默认是true
+         */
         setClipChildren(false);
+
+        /**
+         * 初始化跟布局
+         */
         mRootView = LayoutInflater.from(context).inflate(R.layout.foldable_layout, this, true);
+
         mContentLayout = (RelativeLayout) findViewById(R.id.foldable_content_view);
         mImageViewBelow = (ImageView) findViewById(R.id.foldable_layout_below_bitmap);
         mImageViewAbove = (ImageView) findViewById(R.id.foldable_layout_above_bitmap);
+
+
         mMatrix = new Matrix();
         mMatrix.postScale(1, -1);
     }
@@ -155,11 +150,16 @@ public class FoldableLayout extends RelativeLayout {
      * @param context        is a valid context.
      */
     public void setupViews(@LayoutRes int coverLayoutId, @LayoutRes int detailLayoutId, @DimenRes int coverHeight, Context context) {
+
         mViewGroupCover = (ViewGroup) LayoutInflater.from(context).inflate(coverLayoutId, mContentLayout, false);
+
         mViewGroupDetail = (ViewGroup) LayoutInflater.from(context).inflate(detailLayoutId, mContentLayout, false);
+
         mContentLayout.addView(mViewGroupCover);
         mContentLayout.addView(mViewGroupDetail);
+
         mViewGroupDetail.setVisibility(GONE);
+
         mCoverHeight = context.getResources().getDimensionPixelSize(coverHeight);
     }
 

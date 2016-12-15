@@ -36,7 +36,7 @@ public class FoldViewAdapter extends RecyclerView.Adapter<FoldViewAdapter.PhotoV
 
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new PhotoViewHolder(new FoldableLayout(parent.getContext()));
+        return new PhotoViewHolder(new FoldableLayout(mContext));
     }
 
     @Override
@@ -45,12 +45,17 @@ public class FoldViewAdapter extends RecyclerView.Adapter<FoldViewAdapter.PhotoV
 
         final String path = "content://com.atom.foldablelayout/pictures/" + mDataSet[position];
         // Bind data
-        Picasso.with(holder.mFoldableLayout.getContext()).load(path).into(holder.mImageViewCover);
-        Picasso.with(holder.mFoldableLayout.getContext()).load(path).into(holder.mImageViewDetail);
+        Picasso.with(mContext).load(path)
+                .into(holder.mImageViewCover);
+
+        Picasso.with(mContext).load(path)
+                .into(holder.mImageViewDetail);
+
         holder.mTextViewCover.setText(mDataSet[position].replace(".jpg", ""));
 
         // Bind state
         if (mFoldStates.containsKey(position)) {
+
             if (mFoldStates.get(position) == Boolean.TRUE) {
                 if (!holder.mFoldableLayout.isFolded()) {
                     holder.mFoldableLayout.foldWithoutAnimation();
@@ -60,6 +65,7 @@ public class FoldViewAdapter extends RecyclerView.Adapter<FoldViewAdapter.PhotoV
                     holder.mFoldableLayout.unfoldWithoutAnimation();
                 }
             }
+
         } else {
             holder.mFoldableLayout.foldWithoutAnimation();
         }
@@ -67,6 +73,7 @@ public class FoldViewAdapter extends RecyclerView.Adapter<FoldViewAdapter.PhotoV
         holder.mButtonShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("image/jpg");
                 Uri uri = Uri.parse(path);
@@ -123,7 +130,7 @@ public class FoldViewAdapter extends RecyclerView.Adapter<FoldViewAdapter.PhotoV
         return null == mDataSet ? 0 : mDataSet.length;
     }
 
-    protected static class PhotoViewHolder extends RecyclerView.ViewHolder {
+    public static class PhotoViewHolder extends RecyclerView.ViewHolder {
 
         protected FoldableLayout mFoldableLayout;
 
